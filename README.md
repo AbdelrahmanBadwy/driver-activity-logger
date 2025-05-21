@@ -248,17 +248,67 @@ I've chosen this architecture for several key reasons:
 user-activity-service/
 │
 ├── src/
-│   ├── application/         # Application services and use cases
-│   ├── domain/              # Domain models and business logic
-│   ├── infrastructure/      # External dependencies (DB, Kafka)
-│   ├── interfaces/          # API controllers and message handlers
-│   ├── shared/              # Shared utilities
-│   ├── server.js            # API server entry point
-│   └── consumer.js          # Kafka consumer entry point
+│   ├── application/
+│   │   └── services/
+│   │       ├── userActivityService.js
+│   │       └── activityProcessorService.js
+│   │
+│   ├── domain/
+│   │   ├── models/
+│   │   │   └── UserActivity.js
+│   │   └── valueObjects/
+│   │       └── ActivityType.js
+│   │
+│   ├── infrastructure/
+│   │   ├── database/
+│   │   │   ├── mongo.js
+│   │   │   └── schemas/
+│   │   │       └── userActivitySchema.js
+│   │   ├── kafka/
+│   │   │   ├── producer.js
+│   │   │   └── consumer.js
+│   │   └── repositories/
+│   │       └── userActivityRepository.js
+│   │
+│   ├── interfaces/
+│   │   ├── http/
+│   │   │   ├── app.js
+│   │   │   ├── controllers/
+│   │   │   │   └── userActivityController.js
+│   │   │   └── routes/
+│   │   │       └── userActivityRoutes.js
+│   │   └── messaging/
+│   │       └── activityConsumer.js
+│   │
+│   ├── shared/
+│   │   ├── config.js
+│   │   └── logger.js
+│   │
+│   ├── server.js
+│   └── consumer.js
 │
-├── tests/                   # Test files
-├── k8s/                     # Kubernetes deployment files
-└── ...
+├── tests/
+│   ├── unit/
+│   │   └── domain/
+│   │       └── UserActivity.test.js
+│   └── integration/
+│       └── api/
+│           └── activities.test.js
+│
+├── k8s/
+│   ├── api-deployment.yaml
+│   ├── consumer-deployment.yaml
+│   ├── kafka-deployment.yaml
+│   └── mongodb-deployment.yaml
+│
+├── .env
+├── .gitignore
+├── docker-compose.yml
+├── docker-compose.prod.yml
+├── Dockerfile
+├── Dockerfile.consumer
+├── package.json
+└── README.md
 ```
 
 ### Available Scripts
