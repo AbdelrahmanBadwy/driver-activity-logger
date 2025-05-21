@@ -8,7 +8,7 @@ const logger = require("../../shared/logger");
 class UserActivityService {
   async logActivity(userId, activityType, metadata) {
     try {
-      // Create and validate domain object
+      // create and validate domain object
       const activityTypeObj = new ActivityType(activityType);
       const activity = new UserActivity(
         userId,
@@ -17,7 +17,7 @@ class UserActivityService {
       );
       activity.validate();
 
-      // Send to Kafka
+      // send to Kafka
       await kafkaProducer.sendMessage(
         config.kafka.topics.userActivities,
         activity

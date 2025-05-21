@@ -6,11 +6,11 @@ class ActivityProcessorService {
     try {
       logger.debug(`Processing activity for user ${activity.userId}`);
 
-      // Add additional processing logic here if needed
-      // For example: enrich data, analyze patterns, etc.
+      // add additional processing logic here like: ai/ml/dl models for security detection
+      // for example, you could analyze the activity for anomalies or patterns
+      // it's all about how you want to process the activity
 
-      // Store in database
-      return await UserActivityRepository.saveActivity(activity);
+      return await UserActivityRepository.saveActivity(activity); // save the activity to the database using the repository "<"
     } catch (error) {
       logger.error("Error processing activity:", error);
       throw error;

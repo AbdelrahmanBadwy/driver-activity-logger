@@ -4,12 +4,12 @@ const userActivitySchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true,
-    index: true,
+    index: true, // indexing for faster querying
   },
   activityType: {
     type: String,
     required: true,
-    index: true,
+    index: true, // indexing for faster querying
   },
   metadata: {
     type: Object,
@@ -18,16 +18,16 @@ const userActivitySchema = new mongoose.Schema({
   processedAt: {
     type: Date,
     default: Date.now,
-    index: true,
+    index: true, // indexing for faster querying
   },
   timestamp: {
     type: Date,
     required: true,
-    index: true,
+    index: true, // indexing for faster querying
   },
 });
 
-// Create compound indexes for common queries
+// create compound indexes for common queries like get recent activities of a specific user (sorted by most recent)
 userActivitySchema.index({ userId: 1, timestamp: -1 });
 userActivitySchema.index({ activityType: 1, timestamp: -1 });
 

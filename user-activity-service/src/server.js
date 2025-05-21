@@ -6,18 +6,15 @@ const logger = require("./shared/logger");
 
 async function startServer() {
   try {
-    // Connect to MongoDB
     await mongoDb.connect();
 
-    // Connect Kafka producer
     await kafkaProducer.connect();
 
-    // Start HTTP server
     const server = app.listen(config.app.port, () => {
       logger.info(`API server listening on port ${config.app.port}`);
     });
 
-    // Handle graceful shutdown
+    // graceful shutdown
     const shutdown = async () => {
       logger.info("Shutting down server...");
 
@@ -34,8 +31,8 @@ async function startServer() {
       });
     };
 
-    process.on("SIGTERM", shutdown);
-    process.on("SIGINT", shutdown);
+    process.on("SIGTERM", shutdown); // kill command
+    process.on("SIGINT", shutdown); // Ctrl+C
   } catch (error) {
     logger.error("Failed to start server:", error);
     process.exit(1);

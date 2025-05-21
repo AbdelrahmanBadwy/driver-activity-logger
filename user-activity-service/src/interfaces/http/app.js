@@ -3,13 +3,11 @@ const activityRoutes = require("./routes/userActivityRoutes");
 
 const app = express();
 
-// Middleware
 app.use(express.json());
 
-// Routes
 app.use("/api/activities", activityRoutes);
 
-// Health check endpoint
+// health check endpoint made it for easy to check if the service is up and running
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });

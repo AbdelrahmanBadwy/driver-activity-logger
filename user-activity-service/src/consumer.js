@@ -4,14 +4,12 @@ const logger = require("./shared/logger");
 
 async function startConsumer() {
   try {
-    // Connect to MongoDB
     await mongoDb.connect();
 
     // Start Kafka consumer
     await activityConsumer.start();
     logger.info("Consumer service started successfully");
 
-    // Handle graceful shutdown
     const shutdown = async () => {
       logger.info("Shutting down consumer...");
 
@@ -24,8 +22,8 @@ async function startConsumer() {
       }
     };
 
-    process.on("SIGTERM", shutdown);
-    process.on("SIGINT", shutdown);
+    process.on("SIGTERM", shutdown); //kill
+    process.on("SIGINT", shutdown); //Ctrl+C
   } catch (error) {
     logger.error("Failed to start consumer service:", error);
     process.exit(1);
