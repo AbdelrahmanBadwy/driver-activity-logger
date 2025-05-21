@@ -62,7 +62,7 @@ I've chosen this architecture for several key reasons:
 1. **Clone the repository**
 
    ```bash
-   git clone [https://github.com/your-organization/user-activity-service.git](https://github.com/AbdelrahmanBadwy/Microservice_Projects.git)
+   git clone https://github.com/AbdelrahmanBadwy/Microservice_Projects.git
    cd user-activity-service
    ```
 
