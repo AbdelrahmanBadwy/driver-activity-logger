@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user-activity-consumer
-          image: ${YOUR_DOCKER_REGISTRY}/user-activity-consumer:latest
+          image: abdelrahmanelbadawy1/user-activity-consumer:latest
           env:
             - name: NODE_ENV
               value: "production"

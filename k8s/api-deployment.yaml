@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user-activity-api
-          image: ${YOUR_DOCKER_REGISTRY}/user-activity-api:latest
+          image: abdelrahmanelbadawy1/user-activity-api:latest
           ports:
             - containerPort: 3000
           env:
