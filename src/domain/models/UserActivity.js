@@ -1,16 +1,20 @@
 class UserActivity {
-  constructor(userId, activityType, metadata, timestamp = new Date()) {
-    this.userId = userId;
-    this.activityType = activityType;
-    this.metadata = metadata;
-    this.timestamp = timestamp;
+  constructor({ timestamp_ms, drowsy, distracted, yawning }) {
+    this.timestamp_ms = timestamp_ms;
+    this.drowsy = drowsy;
+    this.distracted = distracted;
+    this.yawning = yawning;
   }
 
   validate() {
-    // here we validate also about the use-case
-    if (!this.userId) throw new Error("User ID is required");
-    if (!this.activityType) throw new Error("Activity type is required");
-
+    if (typeof this.timestamp_ms !== "number")
+      throw new Error("timestamp_ms must be a number (milliseconds)");
+    if (typeof this.drowsy !== "boolean")
+      throw new Error("drowsy must be a boolean");
+    if (typeof this.distracted !== "boolean")
+      throw new Error("distracted must be a boolean");
+    if (typeof this.yawning !== "boolean")
+      throw new Error("yawning must be a boolean");
     return true;
   }
 }

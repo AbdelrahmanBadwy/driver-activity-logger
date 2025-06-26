@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../../../src/interfaces/http/app");
 const mongoDb = require("../../../src/infrastructure/database/mongo");
 const UserActivityModel = require("../../../src/infrastructure/database/schemas/userActivitySchema");
+const mongoose = require("mongoose");
 
 describe("User Activity API", () => {
   beforeAll(async () => {

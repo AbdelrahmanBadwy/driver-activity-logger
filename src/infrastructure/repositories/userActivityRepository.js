@@ -5,12 +5,11 @@ class UserActivityRepository {
   async saveActivity(activity) {
     try {
       const newActivity = new UserActivityModel({
-        userId: activity.userId,
-        activityType: activity.activityType,
-        metadata: activity.metadata,
-        timestamp: activity.timestamp,
+        timestamp_ms: activity.timestamp_ms,
+        drowsy: activity.drowsy,
+        distracted: activity.distracted,
+        yawning: activity.yawning,
       });
-
       return await newActivity.save();
     } catch (error) {
       logger.error("Error saving activity to database:", error);
@@ -24,7 +23,7 @@ class UserActivityRepository {
       const skip = (page - 1) * limit;
 
       const query = UserActivityModel.find(filters)
-        .sort({ timestamp: -1 })
+        .sort({ timestamp_ms: -1 })
         .skip(skip)
         .limit(limit);
 

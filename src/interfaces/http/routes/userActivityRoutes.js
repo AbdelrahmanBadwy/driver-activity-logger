@@ -5,6 +5,5 @@ const router = express.Router();
 
 router.post("/", userActivityController.logActivity);
 router.get("/", userActivityController.getActivities);
-router.get("/types", userActivityController.getActivityTypes);
 
 module.exports = router;

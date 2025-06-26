@@ -1,20 +1,14 @@
 const UserActivity = require("../../domain/models/UserActivity");
-const { ActivityType } = require("../../domain/valueObjects/ActivityType");
 const kafkaProducer = require("../../infrastructure/kafka/producer");
 const UserActivityRepository = require("../../infrastructure/repositories/userActivityRepository");
 const config = require("../../shared/config");
 const logger = require("../../shared/logger");
 
 class UserActivityService {
-  async logActivity(userId, activityType, metadata) {
+  async logActivity(activityData) {
     try {
       // create and validate domain object
-      const activityTypeObj = new ActivityType(activityType);
-      const activity = new UserActivity(
-        userId,
-        activityTypeObj.toString(),
-        metadata
-      );
+      const activity = new UserActivity(activityData);
       activity.validate();
 
       // send to Kafka

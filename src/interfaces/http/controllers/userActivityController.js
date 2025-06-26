@@ -1,22 +1,28 @@
 const userActivityService = require("../../../application/services/userActivityService");
-const { ACTIVITY_TYPES } = require("../../../domain/valueObjects/ActivityType");
 const logger = require("../../../shared/logger");
 
 exports.logActivity = async (req, res) => {
   try {
-    const { userId, activityType, metadata } = req.body;
+    const { timestamp_ms, drowsy, distracted, yawning } = req.body;
 
-    if (!userId || !activityType) {
+    if (
+      typeof timestamp_ms !== "number" ||
+      typeof drowsy !== "boolean" ||
+      typeof distracted !== "boolean" ||
+      typeof yawning !== "boolean"
+    ) {
       return res.status(400).json({
-        error: "Missing required fields: userId and activityType are required",
+        error:
+          "Missing or invalid required fields: timestamp_ms (number), drowsy (boolean), distracted (boolean), yawning (boolean) are required",
       });
     }
 
-    const result = await userActivityService.logActivity(
-      userId,
-      activityType,
-      metadata
-    );
+    const result = await userActivityService.logActivity({
+      timestamp_ms,
+      drowsy,
+      distracted,
+      yawning,
+    });
     return res.status(201).json(result);
   } catch (error) {
     logger.error("Error in log activity controller:", error);
@@ -28,24 +34,24 @@ exports.getActivities = async (req, res) => {
   try {
     // Extract query parameters
     const {
-      userId,
-      activityType,
-      startDate,
-      endDate,
+      drowsy,
+      distracted,
+      yawning,
+      minTimestamp,
+      maxTimestamp,
       page = 1,
       limit = 10,
     } = req.query;
 
     // Build filters
     const filters = {};
-    if (userId) filters.userId = userId;
-    if (activityType) filters.activityType = activityType;
-
-    // Date range filter
-    if (startDate || endDate) {
-      filters.timestamp = {};
-      if (startDate) filters.timestamp.$gte = new Date(startDate);
-      if (endDate) filters.timestamp.$lte = new Date(endDate);
+    if (drowsy !== undefined) filters.drowsy = drowsy === "true";
+    if (distracted !== undefined) filters.distracted = distracted === "true";
+    if (yawning !== undefined) filters.yawning = yawning === "true";
+    if (minTimestamp || maxTimestamp) {
+      filters.timestamp_ms = {};
+      if (minTimestamp) filters.timestamp_ms.$gte = Number(minTimestamp);
+      if (maxTimestamp) filters.timestamp_ms.$lte = Number(maxTimestamp);
     }
 
     // Pagination
@@ -66,5 +72,5 @@ exports.getActivities = async (req, res) => {
 };
 
 exports.getActivityTypes = (req, res) => {
-  return res.json(ACTIVITY_TYPES);
+  return res.json([]); // No activity types in new structure
 };

@@ -4,13 +4,17 @@ const logger = require("../../shared/logger");
 class ActivityProcessorService {
   async processActivity(activity) {
     try {
-      logger.debug(`Processing activity for user ${activity.userId}`);
-
-      // add additional processing logic here like: ai/ml/dl models for security detection
-      // for example, you could analyze the activity for anomalies or patterns
-      // it's all about how you want to process the activity
-
-      return await UserActivityRepository.saveActivity(activity); // save the activity to the database using the repository "<"
+      logger.debug(`Processing activity: ${JSON.stringify(activity)}`);
+      // Validate structure
+      if (
+        typeof activity.timestamp_ms !== "number" ||
+        typeof activity.drowsy !== "boolean" ||
+        typeof activity.distracted !== "boolean" ||
+        typeof activity.yawning !== "boolean"
+      ) {
+        throw new Error("Invalid activity structure");
+      }
+      return await UserActivityRepository.saveActivity(activity);
     } catch (error) {
       logger.error("Error processing activity:", error);
       throw error;
